@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	_ "github.com/joho/godotenv/autoload"
 	"github.com/urfave/cli"
 )
 
@@ -15,6 +14,15 @@ import (
 var Version string
 
 func main() {
+	// Load env-file if it exists first
+	if filename, found := os.LookupEnv("PLUGIN_ENV_FILE"); found {
+		godotenv.Load(filename)
+	}
+
+	if _, err := os.Stat("/run/drone/env"); err == nil {
+		godotenv.Overload("/run/drone/env")
+	}
+
 	copyright := fmt.Sprintf("Copyright (c) %v Bo-Yi Wu", time.Now().Year())
 	app := cli.NewApp()
 	app.Name = "gitlab-ci plugin"
@@ -68,7 +76,7 @@ func main() {
 			Value:  ".env",
 		},
 		cli.StringSliceFlag{
-			Name:   "gitlab-env",
+			Name:   "gitlab_env",
 			Usage:  "variables to pass to gitlab",
 			EnvVar: "PLUGIN_GITLAB_ENV,GITLAB_ENV,INPUT_GITLAB_ENV",
 		},
@@ -124,7 +132,7 @@ func run(c *cli.Context) error {
 		ID:          c.String("id"),
 		Debug:       c.Bool("debug"),
 		Wait:        c.Bool("wait"),
-		Environment: c.StringSlice("gitlab-env"),
+		Environment: c.StringSlice("gitlab_env"),
 	}
 
 	return plugin.Exec()
