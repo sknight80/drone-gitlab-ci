@@ -55,7 +55,7 @@ Example configuration with environment variables set on the gitlab pipeline:
       token:
         from_secret: gitlab_token
       id: gitlab-project-id
-+     gitlab-env:
++     gitlab_env:
 +       - VARIABLE_NAME=VALUE
 ```
 
@@ -89,7 +89,7 @@ id
 debug
 : enable debug mode
 
-gitlab-env
+gitlab_env
 : list of strings in the form `VARIABLE_NAME=VALUE` which will be passed to the pipeline.
 
 wait

@@ -70,7 +70,7 @@ func main() {
 		cli.StringSliceFlag{
 			Name:   "gitlab-env",
 			Usage:  "variables to pass to gitlab",
-			EnvVar: "PLUGIN_ENV,GITLAB_ENV,INPUT_ENV",
+			EnvVar: "PLUGIN_GITLAB_ENV,GITLAB_ENV,INPUT_GITLAB_ENV",
 		},
 	}
 
